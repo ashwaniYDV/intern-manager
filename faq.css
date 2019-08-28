@@ -1,0 +1,22 @@
+.container {
+  margin: 20px 0;
+}
+
+.question,
+.answer {
+  border-style: solid;
+  border-width: 1.5px;
+}
+
+.question {
+  background-color: rgb(161, 165, 168);
+}
+
+.question,
+.answer p {
+  padding: 5px 10px;
+}
+
+.answer {
+  border-top: 0;
+}
