@@ -14,11 +14,7 @@
 			<h1 class="text-center">
 				<?php
 					echo "Hello {$row['first_name']}<br>";
-					if($_SESSION['type']==1) {
-						echo "Faculty<br>";
-					} else {
-						echo "Student<br>";
-					}
+					echo "Student<br>";
 				?>
 			</h1>
 		</div>

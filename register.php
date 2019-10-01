@@ -40,6 +40,13 @@
 						</select>
 					</div>
 					<div class="form-group">
+						<select class="form-control" name="gender" id="gender" required>
+							<option value="" disabled selected>Choose your gender</option>
+							<option value="Male">Male</option>
+							<option value="Female">Female</option>
+						</select>
+					</div>
+					<div class="form-group">
 						<input type="email" name="email" id="register_email" class="form-control" placeholder="Email Address" value="" required >
 					</div>
 					<div class="form-group">

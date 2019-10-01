@@ -70,6 +70,7 @@ include('phpmail.php');
             $first_name = clean($_POST['first_name']);
             $last_name = clean($_POST['last_name']);
             $type = clean($_POST['type']);
+            $gender = clean($_POST['gender']);
             $email = clean($_POST['email']);
             $password = clean($_POST['password']);
             $confirm_password = clean($_POST['confirm_password']);
@@ -91,9 +92,11 @@ include('phpmail.php');
             if(email_exists($email)) {
                 $errors[] = "Sorry that email is already registered";
             }
-            // if(strpos($email,"iitp.ac.in")===false){
-            //     $errors[]="Please enter your official IITP email address.";
-            // }
+            if($type==1){
+                if(strpos($email,"iitp.ac.in")===false){
+                    $errors[]="Professors have to enter their official IITP email address.";
+                }
+            }
 
             if($password != $confirm_password) {
                 $errors[] = "Your pasword fields do not match";
@@ -105,7 +108,7 @@ include('phpmail.php');
                     echo validation_errors($error);
                 }
             } else {
-                if(register_user($first_name, $last_name, $type, $email, $password)) {
+                if(register_user($first_name, $last_name, $type, $gender, $email, $password)) {
                     set_message("<p class='alert alert-success text-center'>Please check your email or spam folder for an activation link</p>");
                     redirect("index.php");
                 } else {
@@ -118,10 +121,11 @@ include('phpmail.php');
 
 
 /***************************** register user function *********************************/    
-    function register_user($first_name, $last_name, $type, $email, $password) {
+    function register_user($first_name, $last_name, $type, $gender, $email, $password) {
         $first_name = escape($first_name);
         $last_name = escape($last_name);
         $type = escape($type);
+        $gender = escape($gender);
         $email = escape($email);
         $password = escape($password);
         $password = md5($password);
@@ -133,8 +137,8 @@ include('phpmail.php');
         ";
         $headers = "From: norreply@yourwebsite.com";
         if(send_email($email, $subject, $msg, $headers)) {
-            $sql = "INSERT INTO users(first_name, last_name, type, email, password, validation_code, active)";
-            $sql.= "VALUES('$first_name', '$last_name', '$type', '$email', '$password', '$validation_code', '0')";
+            $sql = "INSERT INTO users(first_name, last_name, type, gender, email, password, validation_code, active)";
+            $sql.= "VALUES('$first_name', '$last_name', '$type', '$gender', '$email', '$password', '$validation_code', '0')";
 
             $result = query($sql);
             confirm($result);
@@ -193,7 +197,11 @@ include('phpmail.php');
                 }
             } else {
                 if(login_user($email, $password, $remember)) {
-                    redirect("admin.php");
+                    if($_SESSION['type']==1) {
+						redirect("prof_profile.php");
+					} else {
+						redirect("stud_profile.php");
+					}
                 }
             }
         }   
