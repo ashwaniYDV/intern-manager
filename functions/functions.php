@@ -1,5 +1,6 @@
 <?php
 
+include('phpmail.php');
 
 /***************************** helper functions *********************************/
 
@@ -53,7 +54,7 @@
     }
 
     function send_email($email, $subject, $msg, $headers) {
-        return mail($email, $subject, $msg, $headers);
+        return send_php_mail($email, $subject, $msg, $headers);
     }
 
 
@@ -252,7 +253,7 @@
                     $validation_code = md5(uniqid($email, true));
 
                     $subject = "Please reset your password";
-                    $msg = "Here is your password reset code $validation_code
+                    $msg = "Here is your password reset code <b>$validation_code</b>
                     Click here to reset your password http://localhost/intern-manager/code.php?email=$email&code=$validation_code
                     ";
                     $headers = "From: noreply@yourwebsite.com";
